@@ -1,0 +1,15 @@
+header {
+    background-color: lightblue;
+}
+
+footer {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    background-color: lightblue;
+    text-align: center;
+}
+
+.jumbotron {
+    width: 80%;
+}
