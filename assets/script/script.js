@@ -1,11 +1,13 @@
 // openweather.org api key:
 const apiKey = "22ce314bdb5cf097792a93d02ec2e354";
-//tracks currently selected city
-var currentCity = "Richmond";
 //retrieves stored city names
 const cityJSONObj = JSON.parse(localStorage.getItem("storedCities"));
 //holds the current list of active cities
 var cityList = [];
+//tracks currently selected city
+var currentCity = "Richmond";
+//Creates an empty object where relevant API data will be stored
+var currentWeatherObj = {};
 //Array storing days of the week for 5-day forecast
 const weekDays = [
   "Sunday",
@@ -54,21 +56,22 @@ $(document).ready(function () {
   //writes the current city's weather details to the DOM's jumbotron element
   function populateCurrentWeather() {
     $("#detail-list").empty();
+    // $("#weather-icon").empty();
 
     //current city
     $("#detail-list").append("<h2 id='details-header'>"+currentCity+"</h2>");
 
     //weather icon
-    $("#weather-details").append("Icon");
+    $("#weather-icon").replaceWith("<img src='http://openweathermap.org/img/wn/"+currentWeatherObj.icon+"@4x.png' id='weather-icon' alt='Weather Icon'/>");
 
     //temperature
-    $("#detail-list").append("<li>Temperature: </li>");
+    $("#detail-list").append("<li>Temperature: "+currentWeatherObj.temp+"°</li>");
 
     //Humidity
-    $("#detail-list").append("<li>Humidity: </li>");
+    $("#detail-list").append("<li>Humidity: "+currentWeatherObj.humidity+"%</li>");
 
     //Wind Speed
-    $("#detail-list").append("<li>Wind Speed: </li>");
+    $("#detail-list").append("<li>Wind Speed: "+currentWeatherObj.windspeed+" mph</li>");
 
     //UV index
     $("#detail-list").append("<li>UV Index: </li>");
@@ -81,12 +84,20 @@ $(document).ready(function () {
       url:
         "https://api.openweathermap.org/data/2.5/weather?q=" +
         currentCity +
-        "&appid=" +
+        "&units=imperial&appid=" +
         apiKey,
       method: "GET",
     }).then(function (response) {
       //response is the object retrieved by the api call
       console.log(response);
+
+      currentWeatherObj = {
+        temp: response.main.temp,
+        humidity: response.main.humidity,
+        windspeed: response.wind.speed,
+        icon: response.weather[0].icon
+      }
+      console.table(currentWeatherObj);
     });
   }
 
