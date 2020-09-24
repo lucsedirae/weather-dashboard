@@ -1,3 +1,12 @@
+aside {
+    margin-top: 2rem;
+    margin-bottom: 4rem;
+    margin-left: 2rem;
+    background-color: lightblue;
+    border-radius: 2rem;
+
+}
+
 footer {
     position: fixed;
     width: 100%;
@@ -14,6 +23,33 @@ li {
     cursor: pointer;
 }
 
+ul {
+    height: 14rem;
+    margin-top: 2rem;
+    background-color: white;
+    border-radius: 2rem;
+}
+
 .jumbotron {
+    margin-top: 2rem;
     width: 80%;
+    margin-left: 3rem;
+    border-radius: 2rem;
+    background-color: lightblue;
+}
+
+#submit-button {
+    margin-top: 1rem;
+    margin-left: 2rem;
+    border-radius: 2rem;
+}
+
+#user-input {
+    margin-top: 1rem;
+    margin-left: 2rem;
+    text-align: center;
+}
+
+#weather-details {
+    background-color: white;
 }
