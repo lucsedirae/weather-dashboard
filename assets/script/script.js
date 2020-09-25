@@ -40,6 +40,9 @@ $(document).ready(function () {
   $("#detail-list").html(
     "<h2 id='placeholder-detail'>Every silver lining's got a touch of grey...</h2>"
   );
+  // $("#weather-icon").html("<img src='../assets/images/dancingbear-small.svg' id='weather-icon'></img>"
+  // );
+
 
   //Loop assigns a numeric value to the current day of the week. This value will be added to the 
   //index of k in populateForecast() in order to populate cards starting with the current day

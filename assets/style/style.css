@@ -1,3 +1,8 @@
+@font-face {
+    font-family: gratefulDead;
+    src: url(../font/Griffinize-oxOV.ttf);
+}
+
 @keyframes fadein {
     from { opacity: 0; }
     to   { opacity: 1; }
@@ -6,6 +11,7 @@
 aside {
     margin-top: 2rem;
     margin-left: 2rem;
+    margin-right: 2rem;
     background-color: #00FBED;
     background-image: url("../images/cloudy.svg");
     border-radius: 2rem;
@@ -14,6 +20,7 @@ aside {
 
 body {
     background-color: lightgray;
+    font-family: 'Wendy One', sans-serif;
 }
 
 footer {
@@ -24,19 +31,34 @@ footer {
     text-align: center;
 }
 
+h1 {
+    margin-top: 0;
+    color: white;
+    font-size: 6rem;
+    font-family: gratefulDead;
+    font-weight: 600;
+    text-shadow: .25rem .25rem black;
+}
+
 h2 {
     animation: fadein 2s;
 }
 
 header {
+    text-align: center;
     background-color: #00FBED;
     background-image: url("../images/cloudy.svg");
     background-size: 70%;
 }
 
+img {
+    z-index: 2;
+}
+
 li {
     cursor: pointer;
     animation: fadein 2s;
+    list-style-type: none;
 }
 
 ul {
@@ -60,6 +82,20 @@ ul {
     background-color: #00FBED;
 }
 
+#grey {
+    color: crimson;
+}
+
+#icon-box {
+    background-color: cornflowerblue;
+    border-radius: 2rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    z-index: 1;
+}
+
 #main-row {
     height:25rem;
 }
@@ -74,6 +110,10 @@ ul {
     border-radius: 2rem;
 }
 
+#touch {
+    color: cornflowerblue;
+}
+
 #user-input {
     margin-top: 1rem;
     margin-left: 2rem;
@@ -82,4 +122,8 @@ ul {
 
 #weather-details {
     background-color: white;
+}
+
+#weather-icon {
+    z-index: 3;
 }
