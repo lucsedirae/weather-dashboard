@@ -1,26 +1,42 @@
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
 aside {
     margin-top: 2rem;
-    margin-bottom: 4rem;
     margin-left: 2rem;
-    background-color: lightblue;
+    background-color: #00FBED;
+    background-image: url("../images/cloudy.svg");
     border-radius: 2rem;
+    background-size: 80%;
+}
 
+body {
+    background-color: lightgray;
 }
 
 footer {
     position: fixed;
     width: 100%;
     bottom: 0;
-    background-color: lightblue;
+    background-color: #00FBED;
     text-align: center;
 }
 
+h2 {
+    animation: fadein 2s;
+}
+
 header {
-    background-color: lightblue;
+    background-color: #00FBED;
+    background-image: url("../images/cloudy.svg");
+    background-size: 70%;
 }
 
 li {
     cursor: pointer;
+    animation: fadein 2s;
 }
 
 ul {
@@ -30,12 +46,26 @@ ul {
     border-radius: 2rem;
 }
 
+.card {
+    animation: fadein 2s;
+}
+
 .jumbotron {
     margin-top: 2rem;
     width: 80%;
     margin-left: 3rem;
     border-radius: 2rem;
-    background-color: lightblue;
+    background-image: url("../images/cloudy.svg");
+    background-size: 70%;
+    background-color: #00FBED;
+}
+
+#main-row {
+    height:25rem;
+}
+
+#placeholder-detail {
+    padding-top: 5rem;
 }
 
 #submit-button {

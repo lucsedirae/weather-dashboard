@@ -4,12 +4,28 @@ const apiKey = "22ce314bdb5cf097792a93d02ec2e354";
 const cityJSONObj = JSON.parse(localStorage.getItem("storedCities"));
 //holds the current list of active cities
 var cityList = [];
-//tracks currently selected city
+//Stores currently selected city
 var currentCity = "Richmond";
-//Creates an empty object where relevant API data will be stored
+//Stores current day
+var currentDay = moment().format("dddd");
+var currentDayNumber = 0;
+console.log(currentDay);
+//Creates an empty object where relevant current weather API data will be stored
 var currentWeatherObj = {};
+//Creates an empty object where relevant forecast API data will be stored
+var forecastObj = {};
 //Array storing days of the week for 5-day forecast
+
+//weekDays lists days of the week twice in order to allow a looping of the calendar week in 
+//populateForecast()
 const weekDays = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
   "Sunday",
   "Monday",
   "Tuesday",
@@ -21,9 +37,24 @@ const weekDays = [
 
 //waits until document is fully loaded then initializes the script
 $(document).ready(function () {
+  $("#detail-list").html(
+    "<h2 id='placeholder-detail'>Every silver lining's got a touch of grey...</h2>"
+  );
+
+  //Loop assigns a numeric value to the current day of the week. This value will be added to the 
+  //index of k in populateForecast() in order to populate cards starting with the current day
+  //weekDays.length is divided by two in order to allow a looping of the calendar week in 
+  //populateForecast()
+  for (var l = 0; l < (weekDays.length / 2); l++) {
+    if (currentDay === weekDays[l]) {
+      currentDayNumber = l;
+      console.log(currentDayNumber);
+    }
+  }
+
+  retrieveCurrentAPI();
+  retrieveForecastAPI();
   writeList();
-  retrieveAPI();
-  populateCurrentWeather();
   //Listens for a submission to input a new city
   $("#submit-button").click(newCity);
   //Listens for a click on a city name to set the currentCity
@@ -33,7 +64,7 @@ $(document).ready(function () {
   function newCity() {
     var userInput = $("#user-input").val();
     currentCity = userInput;
-    retrieveAPI();
+    retrieveCurrentAPI();
     populateCurrentWeather();
     console.log(userInput);
 
@@ -57,29 +88,55 @@ $(document).ready(function () {
   function populateCurrentWeather() {
     $("#detail-list").empty();
     // $("#weather-icon").empty();
+    $("#forecast-row").empty();
+    populateForecast();
 
     //current city
-    $("#detail-list").append("<h2 id='details-header'>"+currentCity+"</h2>");
+    $("#detail-list").append(
+      "<h2 id='details-header'>" + currentCity + "</h2>"
+    );
 
     //weather icon
-    $("#weather-icon").replaceWith("<img src='http://openweathermap.org/img/wn/"+currentWeatherObj.icon+"@4x.png' id='weather-icon' alt='Weather Icon'/>");
+    $("#weather-icon").replaceWith(
+      "<img src='http://openweathermap.org/img/wn/" +
+        currentWeatherObj.icon +
+        "@4x.png' id='weather-icon' alt='Weather Icon'/>"
+    );
 
     //temperature
-    $("#detail-list").append("<li>Temperature: "+currentWeatherObj.temp+"°</li>");
+    $("#detail-list").append(
+      "<li>Temperature: " + currentWeatherObj.temp + "°</li>"
+    );
 
     //Humidity
-    $("#detail-list").append("<li>Humidity: "+currentWeatherObj.humidity+"%</li>");
+    $("#detail-list").append(
+      "<li>Humidity: " + currentWeatherObj.humidity + "%</li>"
+    );
 
     //Wind Speed
-    $("#detail-list").append("<li>Wind Speed: "+currentWeatherObj.windspeed+" mph</li>");
+    $("#detail-list").append(
+      "<li>Wind Speed: " + currentWeatherObj.windspeed + " mph</li>"
+    );
 
     //UV index
     $("#detail-list").append("<li>UV Index: </li>");
-
   }
 
-  //Creates the api call retrieving data from openweather.org
-  function retrieveAPI() {
+  //populates the card row with a series of five day forecast cards
+  function populateForecast() {
+    $(".card").empty();
+
+    for (var k = 0; k < 5; k++) {
+      $("#forecast-row").append(
+        "<div class='col-md-2'><div class='card'><div class='card-body'><h5 class='card-title'>" +
+          weekDays[(k + currentDayNumber)] +
+          "</h5><p>Weather info</p></div></div></div>"
+      );
+    }
+  }
+
+  //Creates the api call retrieving current weather data from openweather.org
+  function retrieveCurrentAPI() {
     $.ajax({
       url:
         "https://api.openweathermap.org/data/2.5/weather?q=" +
@@ -95,9 +152,23 @@ $(document).ready(function () {
         temp: response.main.temp,
         humidity: response.main.humidity,
         windspeed: response.wind.speed,
-        icon: response.weather[0].icon
-      }
+        icon: response.weather[0].icon,
+      };
       console.table(currentWeatherObj);
+    });
+  }
+
+  //Creates the api call retrieving forecast data from openweather.org
+  function retrieveForecastAPI() {
+    $.ajax({
+      url:
+        "https://api.openweathermap.org/data/2.5/forecast?q=" +
+        currentCity +
+        "&units=imperial&appid=" +
+        apiKey,
+      method: "GET",
+    }).then(function (reply) {
+      console.log(reply);
     });
   }
 
@@ -105,7 +176,8 @@ $(document).ready(function () {
   function setCurrentCity() {
     currentCity = $(this).text();
     console.log(currentCity);
-    retrieveAPI();
+    retrieveCurrentAPI();
+    retrieveForecastAPI;
     populateCurrentWeather();
   }
 
