@@ -8,15 +8,15 @@ var cityList = [];
 var currentCity = "Richmond";
 //Stores current day
 var currentDay = moment().format("dddd");
-var currentDayNumber = 0;
 console.log(currentDay);
+var currentDayNumber = 0;
 //Creates an empty object where relevant current weather API data will be stored
 var currentWeatherObj = {};
 //Creates an empty object where relevant forecast API data will be stored
 var forecastObj = {};
 //Array storing days of the week for 5-day forecast
 
-//weekDays lists days of the week twice in order to allow a looping of the calendar week in 
+//weekDays lists days of the week twice in order to allow a looping of the calendar week in
 //populateForecast()
 const weekDays = [
   "Sunday",
@@ -40,18 +40,14 @@ $(document).ready(function () {
   $("#detail-list").html(
     "<h2 id='placeholder-detail'>Every silver lining's got a touch of grey...</h2>"
   );
-  // $("#weather-icon").html("<img src='../assets/images/dancingbear-small.svg' id='weather-icon'></img>"
-  // );
 
-
-  //Loop assigns a numeric value to the current day of the week. This value will be added to the 
+  //Loop assigns a numeric value to the current day of the week. This value will be added to the
   //index of k in populateForecast() in order to populate cards starting with the current day
-  //weekDays.length is divided by two in order to allow a looping of the calendar week in 
+  //weekDays.length is divided by two in order to allow a looping of the calendar week in
   //populateForecast()
-  for (var l = 0; l < (weekDays.length / 2); l++) {
+  for (var l = 0; l < weekDays.length / 2; l++) {
     if (currentDay === weekDays[l]) {
       currentDayNumber = l;
-      console.log(currentDayNumber);
     }
   }
 
@@ -69,7 +65,6 @@ $(document).ready(function () {
     currentCity = userInput;
     retrieveCurrentAPI();
     populateCurrentWeather();
-    console.log(userInput);
 
     if (cityJSONObj === null) {
       $("#temp-city").remove();
@@ -77,7 +72,6 @@ $(document).ready(function () {
       $("#city-list").prepend(
         "<li id='city" + (cityList.length - 1) + "'>" + userInput + "</li>"
       );
-      console.log(cityList);
     } else {
       cityList = cityJSONObj;
       cityList.push(userInput);
@@ -132,8 +126,14 @@ $(document).ready(function () {
     for (var k = 0; k < 5; k++) {
       $("#forecast-row").append(
         "<div class='col-md-2'><div class='card'><div class='card-body'><h5 class='card-title'>" +
-          weekDays[(k + currentDayNumber)] +
-          "</h5><p>Weather info</p></div></div></div>"
+          weekDays[currentDayNumber + (k + 1)] +
+          "</h5><ul id='card-list'><li class='card-item'>Temp: " +
+          forecastObj[k].main.temp +
+          "°</li><li class='card-item'>Humidity: " +
+          forecastObj[k].main.humidity +
+          "</li></ul><img src='http://openweathermap.org/img/wn/" +
+          forecastObj[k].weather[0].icon +
+          "@2x.png' id='weather-icon' alt='Weather Icon'/></div></div></div>"
       );
     }
   }
@@ -149,15 +149,12 @@ $(document).ready(function () {
       method: "GET",
     }).then(function (response) {
       //response is the object retrieved by the api call
-      console.log(response);
-
       currentWeatherObj = {
         temp: response.main.temp,
         humidity: response.main.humidity,
         windspeed: response.wind.speed,
         icon: response.weather[0].icon,
       };
-      console.table(currentWeatherObj);
     });
   }
 
@@ -171,14 +168,17 @@ $(document).ready(function () {
         apiKey,
       method: "GET",
     }).then(function (reply) {
+      for (var m = 0; m < 5; m++) {
+        forecastObj[m] = reply.list[m + 8];
+      }
       console.log(reply);
+      console.table(forecastObj);
     });
   }
 
   //replaces the currentCity var value and updates the API call with the new city name
   function setCurrentCity() {
     currentCity = $(this).text();
-    console.log(currentCity);
     retrieveCurrentAPI();
     retrieveForecastAPI;
     populateCurrentWeather();
@@ -189,7 +189,6 @@ $(document).ready(function () {
     $("#city-list").empty();
     if (cityJSONObj != null) {
       cityList = cityJSONObj;
-      console.log(cityList);
       for (var i = 0; i < cityList.length; i++) {
         $("#city-list").prepend(
           "<li id='city" + i + "'>" + cityList[i] + "</li>"

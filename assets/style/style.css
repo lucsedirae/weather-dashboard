@@ -19,7 +19,7 @@ aside {
 }
 
 body {
-    background-color: lightgray;
+    background-color: grey;
     font-family: 'Wendy One', sans-serif;
 }
 
@@ -27,7 +27,7 @@ footer {
     position: fixed;
     width: 100%;
     bottom: 0;
-    background-color: #00FBED;
+    background-color: none;
     text-align: center;
 }
 
@@ -46,8 +46,8 @@ h2 {
 
 header {
     text-align: center;
-    background-color: #00FBED;
-    background-image: url("../images/cloudy.svg");
+    background-color: none;
+    /* background-image: url("../images/cloudy.svg"); */
     background-size: 70%;
 }
 
@@ -70,6 +70,11 @@ ul {
 
 .card {
     animation: fadein 2s;
+    background-color: #00FBED;
+}
+
+.card-item {
+    padding-left: 1rem;
 }
 
 .jumbotron {
@@ -80,6 +85,11 @@ ul {
     background-image: url("../images/cloudy.svg");
     background-size: 70%;
     background-color: #00FBED;
+}
+
+#card-list {
+    height: 3rem;
+    padding: 0rem;
 }
 
 #grey {
