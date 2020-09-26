@@ -14,8 +14,6 @@ var currentDayNumber = 0;
 var currentWeatherObj = {};
 //Creates an empty object where relevant forecast API data will be stored
 var forecastObj = {};
-//Array storing days of the week for 5-day forecast
-
 //weekDays lists days of the week twice in order to allow a looping of the calendar week in
 //populateForecast()
 const weekDays = [
@@ -53,6 +51,7 @@ $(document).ready(function () {
 
   retrieveCurrentAPI();
   retrieveForecastAPI();
+
   writeList();
   //Listens for a submission to input a new city
   $("#submit-button").click(newCity);
@@ -77,8 +76,10 @@ $(document).ready(function () {
       cityList.push(userInput);
       $("#city-list").prepend("<li>" + userInput + "</li>");
     }
-    $("#user-input").text("Enter a city");
+    $("#user-input").val("");
+
     localStorage.setItem("storedCities", JSON.stringify(cityList));
+    populateCurrentWeather();
   }
 
   //writes the current city's weather details to the DOM's jumbotron element
@@ -88,34 +89,28 @@ $(document).ready(function () {
     $("#forecast-row").empty();
     populateForecast();
 
-    //current city
     $("#detail-list").append(
       "<h2 id='details-header'>" + currentCity + "</h2>"
     );
 
-    //weather icon
     $("#weather-icon").replaceWith(
       "<img src='http://openweathermap.org/img/wn/" +
         currentWeatherObj.icon +
         "@4x.png' id='weather-icon' alt='Weather Icon'/>"
     );
 
-    //temperature
     $("#detail-list").append(
       "<li>Temperature: " + currentWeatherObj.temp + "°</li>"
     );
 
-    //Humidity
     $("#detail-list").append(
       "<li>Humidity: " + currentWeatherObj.humidity + "%</li>"
     );
 
-    //Wind Speed
     $("#detail-list").append(
       "<li>Wind Speed: " + currentWeatherObj.windspeed + " mph</li>"
     );
 
-    //UV index
     $("#detail-list").append("<li>UV Index: </li>");
   }
 
@@ -131,7 +126,7 @@ $(document).ready(function () {
           forecastObj[k].main.temp +
           "°</li><li class='card-item'>Humidity: " +
           forecastObj[k].main.humidity +
-          "</li></ul><img src='http://openweathermap.org/img/wn/" +
+          "</li></ul><img src='https://openweathermap.org/img/wn/" +
           forecastObj[k].weather[0].icon +
           "@2x.png' id='weather-icon' alt='Weather Icon'/></div></div></div>"
       );
@@ -189,6 +184,7 @@ $(document).ready(function () {
     $("#city-list").empty();
     if (cityJSONObj != null) {
       cityList = cityJSONObj;
+      currentCity = cityJSONObj[0];
       for (var i = 0; i < cityList.length; i++) {
         $("#city-list").prepend(
           "<li id='city" + i + "'>" + cityList[i] + "</li>"
@@ -201,6 +197,4 @@ $(document).ready(function () {
     }
     return;
   }
-
-  //Break down and append 5 day forecast
 });

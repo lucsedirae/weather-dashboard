@@ -71,6 +71,7 @@ ul {
 .card {
     animation: fadein 2s;
     background-color: #00FBED;
+    border-radius: 2rem;
 }
 
 .card-item {
