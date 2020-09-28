@@ -1,3 +1,6 @@
+//var date = moment(timestamp * 1000).format("dddd");
+
+
 // openweather.org and locationIQ api keys:
 const apiKey = "22ce314bdb5cf097792a93d02ec2e354";
 const coordsApiKey = "pk.76e56d2c826e09cd5f6fd3cd586d26e7";
