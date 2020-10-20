@@ -1,4 +1,7 @@
 # Touch of Grey - Weather Dashboard
+
+![GitHub](https://img.shields.io/github/license/LucSedirae/day-planner?style=flat-square)
+
 https://lucsedirae.github.io/weather-dashboard/<br>
 Touch of Grey is a weather dashboard application that features a Grateful Dead theme<br>
 Upon loading the app, the user is greeted with awelcome message and a search field.<br>
